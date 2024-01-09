@@ -1,0 +1,321 @@
+<?xml version="1.0"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<ClCompile Include="src\ofApp.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\main.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\main.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\ofApp.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxGui\src\ofxBaseGui.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxGui\src\ofxButton.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxGui\src\ofxColorPicker.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxGui\src\ofxGuiGroup.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxGui\src\ofxInputField.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxGui\src\ofxLabel.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxGui\src\ofxPanel.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxGui\src\ofxSlider.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxGui\src\ofxSliderGroup.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxGui\src\ofxToggle.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxSpout\src\ofxSpout\Receiver.cpp">
+			<Filter>addons\ofxSpout\src\ofxSpout</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxSpout\src\ofxSpout\Sender.cpp">
+			<Filter>addons\ofxSpout\src\ofxSpout</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxSpout\src\ofxSpout\Utils.cpp">
+			<Filter>addons\ofxSpout\src\ofxSpout</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxSpout\libs\SpoutSDK\src\SpoutCopy.cpp">
+			<Filter>addons\ofxSpout\libs\SpoutSDK\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxSpout\libs\SpoutSDK\src\SpoutDirectX.cpp">
+			<Filter>addons\ofxSpout\libs\SpoutSDK\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxSpout\libs\SpoutSDK\src\SpoutFrameCount.cpp">
+			<Filter>addons\ofxSpout\libs\SpoutSDK\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxSpout\libs\SpoutSDK\src\SpoutGLDXinterop.cpp">
+			<Filter>addons\ofxSpout\libs\SpoutSDK\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxSpout\libs\SpoutSDK\src\SpoutGLextensions.cpp">
+			<Filter>addons\ofxSpout\libs\SpoutSDK\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxSpout\libs\SpoutSDK\src\SpoutMemoryShare.cpp">
+			<Filter>addons\ofxSpout\libs\SpoutSDK\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxSpout\libs\SpoutSDK\src\SpoutReceiver.cpp">
+			<Filter>addons\ofxSpout\libs\SpoutSDK\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxSpout\libs\SpoutSDK\src\SpoutSDK.cpp">
+			<Filter>addons\ofxSpout\libs\SpoutSDK\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxSpout\libs\SpoutSDK\src\SpoutSender.cpp">
+			<Filter>addons\ofxSpout\libs\SpoutSDK\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxSpout\libs\SpoutSDK\src\SpoutSenderNames.cpp">
+			<Filter>addons\ofxSpout\libs\SpoutSDK\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxSpout\libs\SpoutSDK\src\SpoutSharedMemory.cpp">
+			<Filter>addons\ofxSpout\libs\SpoutSDK\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxSpout\libs\SpoutSDK\src\SpoutUtils.cpp">
+			<Filter>addons\ofxSpout\libs\SpoutSDK\src</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="src">
+			<UniqueIdentifier>{d8376475-7454-4a24-b08a-aac121d3ad6f}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="addons">
+			<UniqueIdentifier>{71834F65-F3A9-211E-73B8-DC85}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="addons\ofxGui">
+			<UniqueIdentifier>{4F2A59AF-5F4E-704B-D067-EC13}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="addons\ofxGui\src">
+			<UniqueIdentifier>{645E9533-4DCD-6179-1CDF-CB65}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="addons\ofxRealsense2">
+			<UniqueIdentifier>{D677FE70-B82C-F601-F393-79CA}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="addons\ofxRealsense2\libs">
+			<UniqueIdentifier>{6E874A6A-48F1-5E8D-F212-B2A2}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="addons\ofxRealsense2\libs\realsense2">
+			<UniqueIdentifier>{941C987F-AACB-B8E5-7D73-9A29}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="addons\ofxRealsense2\libs\realsense2\include">
+			<UniqueIdentifier>{828680CE-F9A0-AD0A-6676-883E}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="addons\ofxRealsense2\libs\realsense2\include\librealsense2">
+			<UniqueIdentifier>{657AD3F4-41FC-C716-6144-A4A7}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="addons\ofxRealsense2\libs\realsense2\include\librealsense2\h">
+			<UniqueIdentifier>{21D26E08-848F-435B-4311-BA1F}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="addons\ofxRealsense2\libs\realsense2\include\librealsense2\hpp">
+			<UniqueIdentifier>{294279AB-5DF5-DA45-68BE-5F53}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="addons\ofxSpout">
+			<UniqueIdentifier>{F4DD1F4F-E479-F60E-B010-30BD}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="addons\ofxSpout\src">
+			<UniqueIdentifier>{836FBDC0-375C-97EA-F6ED-9730}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="addons\ofxSpout\src\ofxSpout">
+			<UniqueIdentifier>{E7ABD4B0-4F90-69C0-118F-5894}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="addons\ofxSpout\libs">
+			<UniqueIdentifier>{7070A9E6-A71C-4358-F0E4-3D28}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="addons\ofxSpout\libs\SpoutSDK">
+			<UniqueIdentifier>{DBA8F4A5-5C4B-6BC3-C55A-E264}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="addons\ofxSpout\libs\SpoutSDK\src">
+			<UniqueIdentifier>{CC43A1EC-9F74-499A-D230-67A8}</UniqueIdentifier>
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="src\ofApp.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\example.hpp">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\ofApp.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxBaseGui.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxButton.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxColorPicker.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxGui.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxGuiGroup.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxInputField.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxLabel.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxPanel.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxSlider.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxSliderGroup.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxToggle.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxRealsense2\libs\realsense2\include\librealsense2\h\rs_advanced_mode_command.h">
+			<Filter>addons\ofxRealsense2\libs\realsense2\include\librealsense2\h</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxRealsense2\libs\realsense2\include\librealsense2\h\rs_context.h">
+			<Filter>addons\ofxRealsense2\libs\realsense2\include\librealsense2\h</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxRealsense2\libs\realsense2\include\librealsense2\h\rs_device.h">
+			<Filter>addons\ofxRealsense2\libs\realsense2\include\librealsense2\h</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxRealsense2\libs\realsense2\include\librealsense2\h\rs_frame.h">
+			<Filter>addons\ofxRealsense2\libs\realsense2\include\librealsense2\h</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxRealsense2\libs\realsense2\include\librealsense2\h\rs_internal.h">
+			<Filter>addons\ofxRealsense2\libs\realsense2\include\librealsense2\h</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxRealsense2\libs\realsense2\include\librealsense2\h\rs_option.h">
+			<Filter>addons\ofxRealsense2\libs\realsense2\include\librealsense2\h</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxRealsense2\libs\realsense2\include\librealsense2\h\rs_pipeline.h">
+			<Filter>addons\ofxRealsense2\libs\realsense2\include\librealsense2\h</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxRealsense2\libs\realsense2\include\librealsense2\h\rs_processing.h">
+			<Filter>addons\ofxRealsense2\libs\realsense2\include\librealsense2\h</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxRealsense2\libs\realsense2\include\librealsense2\h\rs_record_playback.h">
+			<Filter>addons\ofxRealsense2\libs\realsense2\include\librealsense2\h</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxRealsense2\libs\realsense2\include\librealsense2\h\rs_sensor.h">
+			<Filter>addons\ofxRealsense2\libs\realsense2\include\librealsense2\h</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxRealsense2\libs\realsense2\include\librealsense2\h\rs_types.h">
+			<Filter>addons\ofxRealsense2\libs\realsense2\include\librealsense2\h</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxRealsense2\libs\realsense2\include\librealsense2\hpp\rs_context.hpp">
+			<Filter>addons\ofxRealsense2\libs\realsense2\include\librealsense2\hpp</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxRealsense2\libs\realsense2\include\librealsense2\hpp\rs_device.hpp">
+			<Filter>addons\ofxRealsense2\libs\realsense2\include\librealsense2\hpp</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxRealsense2\libs\realsense2\include\librealsense2\hpp\rs_frame.hpp">
+			<Filter>addons\ofxRealsense2\libs\realsense2\include\librealsense2\hpp</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxRealsense2\libs\realsense2\include\librealsense2\hpp\rs_internal.hpp">
+			<Filter>addons\ofxRealsense2\libs\realsense2\include\librealsense2\hpp</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxRealsense2\libs\realsense2\include\librealsense2\hpp\rs_pipeline.hpp">
+			<Filter>addons\ofxRealsense2\libs\realsense2\include\librealsense2\hpp</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxRealsense2\libs\realsense2\include\librealsense2\hpp\rs_processing.hpp">
+			<Filter>addons\ofxRealsense2\libs\realsense2\include\librealsense2\hpp</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxRealsense2\libs\realsense2\include\librealsense2\hpp\rs_record_playback.hpp">
+			<Filter>addons\ofxRealsense2\libs\realsense2\include\librealsense2\hpp</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxRealsense2\libs\realsense2\include\librealsense2\hpp\rs_sensor.hpp">
+			<Filter>addons\ofxRealsense2\libs\realsense2\include\librealsense2\hpp</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxRealsense2\libs\realsense2\include\librealsense2\hpp\rs_types.hpp">
+			<Filter>addons\ofxRealsense2\libs\realsense2\include\librealsense2\hpp</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxRealsense2\libs\realsense2\include\librealsense2\rs.h">
+			<Filter>addons\ofxRealsense2\libs\realsense2\include\librealsense2</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxRealsense2\libs\realsense2\include\librealsense2\rs.hpp">
+			<Filter>addons\ofxRealsense2\libs\realsense2\include\librealsense2</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxRealsense2\libs\realsense2\include\librealsense2\rsutil.h">
+			<Filter>addons\ofxRealsense2\libs\realsense2\include\librealsense2</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxRealsense2\libs\realsense2\include\librealsense2\rs_advanced_mode.h">
+			<Filter>addons\ofxRealsense2\libs\realsense2\include\librealsense2</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxRealsense2\libs\realsense2\include\librealsense2\rs_advanced_mode.hpp">
+			<Filter>addons\ofxRealsense2\libs\realsense2\include\librealsense2</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxSpout\src\ofxSpout\Receiver.h">
+			<Filter>addons\ofxSpout\src\ofxSpout</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxSpout\src\ofxSpout\Sender.h">
+			<Filter>addons\ofxSpout\src\ofxSpout</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxSpout\src\ofxSpout\Utils.h">
+			<Filter>addons\ofxSpout\src\ofxSpout</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxSpout\src\ofxSpout.h">
+			<Filter>addons\ofxSpout\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxSpout\libs\SpoutSDK\src\Spout.h">
+			<Filter>addons\ofxSpout\libs\SpoutSDK\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxSpout\libs\SpoutSDK\src\SpoutCommon.h">
+			<Filter>addons\ofxSpout\libs\SpoutSDK\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxSpout\libs\SpoutSDK\src\SpoutCopy.h">
+			<Filter>addons\ofxSpout\libs\SpoutSDK\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxSpout\libs\SpoutSDK\src\SpoutDirectX.h">
+			<Filter>addons\ofxSpout\libs\SpoutSDK\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxSpout\libs\SpoutSDK\src\SpoutFrameCount.h">
+			<Filter>addons\ofxSpout\libs\SpoutSDK\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxSpout\libs\SpoutSDK\src\SpoutGLDXinterop.h">
+			<Filter>addons\ofxSpout\libs\SpoutSDK\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxSpout\libs\SpoutSDK\src\SpoutGLextensions.h">
+			<Filter>addons\ofxSpout\libs\SpoutSDK\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxSpout\libs\SpoutSDK\src\SpoutMemoryShare.h">
+			<Filter>addons\ofxSpout\libs\SpoutSDK\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxSpout\libs\SpoutSDK\src\SpoutReceiver.h">
+			<Filter>addons\ofxSpout\libs\SpoutSDK\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxSpout\libs\SpoutSDK\src\SpoutSDK.h">
+			<Filter>addons\ofxSpout\libs\SpoutSDK\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxSpout\libs\SpoutSDK\src\SpoutSender.h">
+			<Filter>addons\ofxSpout\libs\SpoutSDK\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxSpout\libs\SpoutSDK\src\SpoutSenderNames.h">
+			<Filter>addons\ofxSpout\libs\SpoutSDK\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxSpout\libs\SpoutSDK\src\SpoutSharedMemory.h">
+			<Filter>addons\ofxSpout\libs\SpoutSDK\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxSpout\libs\SpoutSDK\src\SpoutUtils.h">
+			<Filter>addons\ofxSpout\libs\SpoutSDK\src</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ResourceCompile Include="icon.rc" />
+	</ItemGroup>
+</Project>
