@@ -1,26 +1,32 @@
-﻿  ofApp.cpp
-d:\developer\of_v0.10.0_vs2017_release\apps\myapps\testrealsense\src\ofapp.cpp(1): warning C4067: tokens inesperados após diretiva de pré-processador - esperado um newline
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: The intermediate directory (obj\Debug\) contains files shared from another project (testRealSense.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  ofApp.cpp
 d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(326): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
 d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(331): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
 d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(912): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
 d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(913): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
 d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(914): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
 d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(915): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
-d:\developer\of_v0.10.0_vs2017_release\apps\myapps\testrealsense\src\ofapp.h(63): warning C4091: 'typedef ': ignorado à esquerda de 'ofApp::RenderingDefs' quando nenhuma variável é declarada
-d:\developer\of_v0.10.0_vs2017_release\apps\myapps\testrealsense\src\ofapp.cpp(220): warning C4267: 'inicializando': conversão de 'size_t' para 'int', possível perda de dados
-  testRealSense.vcxproj -> D:\Developer\of_v0.10.0_vs2017_release\apps\myApps\testRealSense\bin\testRealSense_debug.exe
+d:\developer\of_v0.10.0_vs2017_release\apps\myapps\depthvideorecorder\src\ofapp.h(29): warning C4091: 'typedef ': ignorado à esquerda de 'ofApp::RenderingDefs' quando nenhuma variável é declarada
+d:\developer\of_v0.10.0_vs2017_release\apps\myapps\depthvideorecorder\src\ofapp.cpp(102): warning C4267: 'inicializando': conversão de 'size_t' para 'int', possível perda de dados
+d:\developer\of_v0.10.0_vs2017_release\apps\myapps\depthvideorecorder\src\ofapp.cpp(144): warning C4996: 'ofPixels_<unsigned char>::getPixels': Use getData instead
+  d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\graphics\ofpixels.h(311): note: consulte a declaração de 'ofPixels_<unsigned char>::getPixels'
+d:\developer\of_v0.10.0_vs2017_release\apps\myapps\depthvideorecorder\src\ofapp.cpp(148): warning C4996: 'ofPixels_<unsigned char>::getPixels': Use getData instead
+  d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\graphics\ofpixels.h(311): note: consulte a declaração de 'ofPixels_<unsigned char>::getPixels'
+d:\developer\of_v0.10.0_vs2017_release\apps\myapps\depthvideorecorder\src\ofapp.cpp(251): warning C4996: 'ofPixels_<unsigned char>::getPixels': Use getData instead
+  d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\graphics\ofpixels.h(311): note: consulte a declaração de 'ofPixels_<unsigned char>::getPixels'
+  testRealSense.vcxproj -> D:\Developer\of_v0.10.0_vs2017_release\apps\myApps\depthVideoRecorder\bin\allInOne_debug.exe
   
   	                   2	D:\Developer\of_v0.10.0_vs2017_release\libs\fmodex\lib\vs\x64\
-  	  *Arquivo EXTRA		 1266176	D:\Developer\of_v0.10.0_vs2017_release\apps\myApps\testRealSense\bin\fmodex.dll
-  	  *Arquivo EXTRA		 1312768	D:\Developer\of_v0.10.0_vs2017_release\apps\myApps\testRealSense\bin\fmodexL.dll
-  	  *Arquivo EXTRA		 6402560	D:\Developer\of_v0.10.0_vs2017_release\apps\myApps\testRealSense\bin\FreeImage.dll
-  	  *Arquivo EXTRA		  101376	D:\Developer\of_v0.10.0_vs2017_release\apps\myApps\testRealSense\bin\Intel.Realsense.dll
-  	  *Arquivo EXTRA		10697856	D:\Developer\of_v0.10.0_vs2017_release\apps\myApps\testRealSense\bin\realsense2.dll
+  	  *Arquivo EXTRA		 1266176	D:\Developer\of_v0.10.0_vs2017_release\apps\myApps\depthVideoRecorder\bin\fmodex.dll
+  	  *Arquivo EXTRA		 1312768	D:\Developer\of_v0.10.0_vs2017_release\apps\myApps\depthVideoRecorder\bin\fmodexL.dll
+  	  *Arquivo EXTRA		 6402560	D:\Developer\of_v0.10.0_vs2017_release\apps\myApps\depthVideoRecorder\bin\FreeImage.dll
+  	  *Arquivo EXTRA		  101376	D:\Developer\of_v0.10.0_vs2017_release\apps\myApps\depthVideoRecorder\bin\Intel.Realsense.dll
+  	  *Arquivo EXTRA		10697856	D:\Developer\of_v0.10.0_vs2017_release\apps\myApps\depthVideoRecorder\bin\realsense2.dll
   
   	                   1	D:\Developer\of_v0.10.0_vs2017_release\libs\FreeImage\lib\vs\x64\
-  	  *Arquivo EXTRA		 1266176	D:\Developer\of_v0.10.0_vs2017_release\apps\myApps\testRealSense\bin\fmodex.dll
-  	  *Arquivo EXTRA		 1503232	D:\Developer\of_v0.10.0_vs2017_release\apps\myApps\testRealSense\bin\fmodex64.dll
-  	  *Arquivo EXTRA		 1312768	D:\Developer\of_v0.10.0_vs2017_release\apps\myApps\testRealSense\bin\fmodexL.dll
-  	  *Arquivo EXTRA		 1552384	D:\Developer\of_v0.10.0_vs2017_release\apps\myApps\testRealSense\bin\fmodexL64.dll
-  	  *Arquivo EXTRA		  101376	D:\Developer\of_v0.10.0_vs2017_release\apps\myApps\testRealSense\bin\Intel.Realsense.dll
-  	  *Arquivo EXTRA		10697856	D:\Developer\of_v0.10.0_vs2017_release\apps\myApps\testRealSense\bin\realsense2.dll
+  	  *Arquivo EXTRA		 1266176	D:\Developer\of_v0.10.0_vs2017_release\apps\myApps\depthVideoRecorder\bin\fmodex.dll
+  	  *Arquivo EXTRA		 1503232	D:\Developer\of_v0.10.0_vs2017_release\apps\myApps\depthVideoRecorder\bin\fmodex64.dll
+  	  *Arquivo EXTRA		 1312768	D:\Developer\of_v0.10.0_vs2017_release\apps\myApps\depthVideoRecorder\bin\fmodexL.dll
+  	  *Arquivo EXTRA		 1552384	D:\Developer\of_v0.10.0_vs2017_release\apps\myApps\depthVideoRecorder\bin\fmodexL64.dll
+  	  *Arquivo EXTRA		  101376	D:\Developer\of_v0.10.0_vs2017_release\apps\myApps\depthVideoRecorder\bin\Intel.Realsense.dll
+  	  *Arquivo EXTRA		10697856	D:\Developer\of_v0.10.0_vs2017_release\apps\myApps\depthVideoRecorder\bin\realsense2.dll

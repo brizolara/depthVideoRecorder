@@ -1,199 +1,24 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: The intermediate directory (obj\Release\) contains files shared from another project (testRealSense.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  main.cpp
   ofApp.cpp
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(326): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem src\main.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(331): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem src\main.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(326): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem src\ofApp.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(331): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem src\ofApp.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(912): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem src\main.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(913): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem src\main.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(914): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem src\main.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(915): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem src\main.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(912): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem src\ofApp.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(913): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem src\ofApp.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(914): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem src\ofApp.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(915): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem src\ofApp.cpp)
-d:\developer\of_v0.10.0_vs2017_release\apps\myapps\depthvideorecorder\src\ofapp.h(28): warning C4091: 'typedef ': ignorado à esquerda de 'ofApp::RenderingDefs' quando nenhuma variável é declarada (compilando arquivo de origem src\ofApp.cpp)
-d:\developer\of_v0.10.0_vs2017_release\apps\myapps\depthvideorecorder\src\ofapp.cpp(92): warning C4267: 'inicializando': conversão de 'size_t' para 'int', possível perda de dados
-d:\developer\of_v0.10.0_vs2017_release\apps\myapps\depthvideorecorder\src\ofapp.h(28): warning C4091: 'typedef ': ignorado à esquerda de 'ofApp::RenderingDefs' quando nenhuma variável é declarada (compilando arquivo de origem src\main.cpp)
-  ofxBaseGui.cpp
-  ofxButton.cpp
-  ofxColorPicker.cpp
-  ofxGuiGroup.cpp
-  ofxInputField.cpp
-  ofxLabel.cpp
-  ofxPanel.cpp
-  ofxSlider.cpp
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(326): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxPanel.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(331): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxPanel.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(326): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxButton.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(331): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxButton.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(912): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxPanel.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(913): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxPanel.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(914): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxPanel.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(915): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxPanel.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(912): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxButton.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(913): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxButton.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(914): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxButton.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(915): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxButton.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(326): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxColorPicker.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(331): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxColorPicker.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(912): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxColorPicker.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(913): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxColorPicker.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(914): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxColorPicker.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(915): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxColorPicker.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(326): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxSlider.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(331): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxSlider.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(326): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxGuiGroup.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(331): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxGuiGroup.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(912): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxSlider.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(913): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxSlider.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(914): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxSlider.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(915): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxSlider.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(912): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxGuiGroup.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(913): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxGuiGroup.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(914): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxGuiGroup.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(915): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxGuiGroup.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(326): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxBaseGui.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(331): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxBaseGui.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(326): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxInputField.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(331): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxInputField.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(912): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxBaseGui.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(326): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxLabel.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(913): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxBaseGui.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(331): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxLabel.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(914): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxBaseGui.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(915): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxBaseGui.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(912): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxInputField.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(913): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxInputField.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(914): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxInputField.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(915): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxInputField.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(912): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxLabel.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(913): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxLabel.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(914): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxLabel.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(915): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxLabel.cpp)
-d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxcolorpicker.cpp(215): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxcolorpicker.cpp(194): note: ao compilar a função membro '<Desconhecido>' de classe <Desconhecido>
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxcolorpicker.cpp(485): note: consulte a referência à instanciação da função modelo 'ofMesh ofxColorPicker_<unsigned char>::getColorPoint(void)' que está sendo compilada
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxcolorpicker.cpp(490): note: consulte a referência à instanciação '<Desconhecido>' de classe <Desconhecido> que está sendo compilada
-d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxcolorpicker.cpp(216): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
-d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxcolorpicker.cpp(225): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
-d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxcolorpicker.cpp(226): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
-d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxcolorpicker.cpp(245): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxcolorpicker.cpp(236): note: ao compilar a função membro '<Desconhecido>' de classe <Desconhecido>
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxcolorpicker.cpp(484): note: consulte a referência à instanciação da função modelo 'ofMesh ofxColorPicker_<unsigned char>::getColorWheel(void)' que está sendo compilada
-d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxcolorpicker.cpp(246): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
-d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxinputfield.cpp(370): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxinputfield.cpp(352): note: ao compilar a função membro '<Desconhecido>' de classe <Desconhecido>
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxinputfield.cpp(800): note: consulte a referência à instanciação '<Desconhecido>' de classe <Desconhecido> que está sendo compilada
-d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxinputfield.cpp(527): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxinputfield.cpp(468): note: ao compilar a função membro '<Desconhecido>' de classe <Desconhecido>
-d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxinputfield.cpp(554): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
-d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxinputfield.cpp(556): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
-d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxinputfield.cpp(771): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxinputfield.cpp(768): note: ao compilar a função membro '<Desconhecido>' de classe <Desconhecido>
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxinputfield.cpp(148): note: consulte a referência à instanciação da função modelo 'void ofxInputField<float>::valueChanged(Type &)' que está sendo compilada
-          with
-          [
-              Type=float
-          ]
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\graphics\ofpolyline.inl(396): warning C4267: '=': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxColorPicker.cpp)
-  d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\graphics\ofpolyline.inl(318): note: ao compilar a função membro '<Desconhecido>' de classe <Desconhecido> (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxColorPicker.cpp)
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxcolorpicker.cpp(208): note: consulte a referência à instanciação da função modelo 'void ofPolyline_<ofDefaultVertexType>::arc(const T &,float,float,float,float,bool,int)' que está sendo compilada
-          with
-          [
-              T=ofDefaultVertexType
-          ]
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxcolorpicker.cpp(194): note: ao compilar a função membro '<Desconhecido>' de classe <Desconhecido>
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxcolorpicker.cpp(485): note: consulte a referência à instanciação da função modelo 'ofMesh ofxColorPicker_<unsigned char>::getColorPoint(void)' que está sendo compilada
-  ofxSliderGroup.cpp
-  ofxToggle.cpp
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(326): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxSliderGroup.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(331): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxSliderGroup.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(912): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxSliderGroup.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(913): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxSliderGroup.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(914): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxSliderGroup.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(915): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxSliderGroup.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(326): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxToggle.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(331): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxToggle.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(912): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxToggle.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(913): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxToggle.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(914): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxToggle.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(915): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxGui\src\ofxToggle.cpp)
-d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxslidergroup.cpp(26): warning C4267: 'argumento': conversão de 'size_t' para 'glm::tvec3<float,0>::length_type', possível perda de dados
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxslidergroup.cpp(11): note: ao compilar a função membro '<Desconhecido>' de classe <Desconhecido>
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxslidergroup.cpp(7): note: consulte a referência à instanciação da função modelo 'ofxVecSlider_<ofDefaultVec3> *ofxVecSlider_<ofDefaultVec3>::setup(ofParameter<ofDefaultVec3>,float,float)' que está sendo compilada
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxslidergroup.cpp(69): note: consulte a referência à instanciação '<Desconhecido>' de classe <Desconhecido> que está sendo compilada
-d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxslidergroup.cpp(59): warning C4267: 'argumento': conversão de 'size_t' para 'glm::tvec3<float,0>::length_type', possível perda de dados
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxslidergroup.cpp(54): note: ao compilar a função membro '<Desconhecido>' de classe <Desconhecido>
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxslidergroup.cpp(19): note: consulte a referência à instanciação da função modelo 'void ofxVecSlider_<ofDefaultVec3>::changeValue(VecType &)' que está sendo compilada
-          with
-          [
-              VecType=ofDefaultVec3
-          ]
-d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxslidergroup.cpp(26): warning C4267: 'argumento': conversão de 'size_t' para 'glm::tvec2<float,0>::length_type', possível perda de dados
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxslidergroup.cpp(11): note: ao compilar a função membro '<Desconhecido>' de classe <Desconhecido>
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxslidergroup.cpp(7): note: consulte a referência à instanciação da função modelo 'ofxVecSlider_<ofDefaultVec2> *ofxVecSlider_<ofDefaultVec2>::setup(ofParameter<ofDefaultVec2>,float,float)' que está sendo compilada
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxslidergroup.cpp(64): note: consulte a referência à instanciação '<Desconhecido>' de classe <Desconhecido> que está sendo compilada
-d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxslidergroup.cpp(59): warning C4267: 'argumento': conversão de 'size_t' para 'glm::tvec2<float,0>::length_type', possível perda de dados
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxslidergroup.cpp(54): note: ao compilar a função membro '<Desconhecido>' de classe <Desconhecido>
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxslidergroup.cpp(19): note: consulte a referência à instanciação da função modelo 'void ofxVecSlider_<ofDefaultVec2>::changeValue(VecType &)' que está sendo compilada
-          with
-          [
-              VecType=ofDefaultVec2
-          ]
-d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxslidergroup.cpp(26): warning C4267: 'argumento': conversão de 'size_t' para 'glm::tvec4<float,0>::length_type', possível perda de dados
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxslidergroup.cpp(11): note: ao compilar a função membro '<Desconhecido>' de classe <Desconhecido>
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxslidergroup.cpp(7): note: consulte a referência à instanciação da função modelo 'ofxVecSlider_<ofDefaultVec4> *ofxVecSlider_<ofDefaultVec4>::setup(ofParameter<ofDefaultVec4>,float,float)' que está sendo compilada
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxslidergroup.cpp(74): note: consulte a referência à instanciação '<Desconhecido>' de classe <Desconhecido> que está sendo compilada
-d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxslidergroup.cpp(59): warning C4267: 'argumento': conversão de 'size_t' para 'glm::tvec4<float,0>::length_type', possível perda de dados
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxslidergroup.cpp(54): note: ao compilar a função membro '<Desconhecido>' de classe <Desconhecido>
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxslidergroup.cpp(19): note: consulte a referência à instanciação da função modelo 'void ofxVecSlider_<ofDefaultVec4>::changeValue(VecType &)' que está sendo compilada
-          with
-          [
-              VecType=ofDefaultVec4
-          ]
-d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxslidergroup.cpp(26): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxslidergroup.cpp(11): note: ao compilar a função membro '<Desconhecido>' de classe <Desconhecido>
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxslidergroup.cpp(7): note: consulte a referência à instanciação da função modelo 'ofxVecSlider_<ofVec3f> *ofxVecSlider_<ofVec3f>::setup(ofParameter<ofPoint>,float,float)' que está sendo compilada
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxslidergroup.cpp(84): note: consulte a referência à instanciação '<Desconhecido>' de classe <Desconhecido> que está sendo compilada
-d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxslidergroup.cpp(59): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxslidergroup.cpp(54): note: ao compilar a função membro '<Desconhecido>' de classe <Desconhecido>
-  d:\developer\of_v0.10.0_vs2017_release\addons\ofxgui\src\ofxslidergroup.cpp(19): note: consulte a referência à instanciação da função modelo 'void ofxVecSlider_<ofVec3f>::changeValue(VecType &)' que está sendo compilada
-          with
-          [
-              VecType=ofVec3f
-          ]
-  Receiver.cpp
-  Sender.cpp
-  Utils.cpp
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(326): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxSpout\src\ofxSpout\Receiver.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(331): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxSpout\src\ofxSpout\Receiver.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(912): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxSpout\src\ofxSpout\Receiver.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(913): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxSpout\src\ofxSpout\Receiver.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(914): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxSpout\src\ofxSpout\Receiver.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(915): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxSpout\src\ofxSpout\Receiver.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(326): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxSpout\src\ofxSpout\Sender.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(331): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxSpout\src\ofxSpout\Sender.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(912): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxSpout\src\ofxSpout\Sender.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(913): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxSpout\src\ofxSpout\Sender.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(914): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxSpout\src\ofxSpout\Sender.cpp)
-d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(915): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados (compilando arquivo de origem ..\..\..\addons\ofxSpout\src\ofxSpout\Sender.cpp)
-  SpoutCopy.cpp
-  SpoutDirectX.cpp
-  SpoutFrameCount.cpp
-  SpoutGLDXinterop.cpp
-  SpoutGLextensions.cpp
-  SpoutMemoryShare.cpp
-  SpoutReceiver.cpp
-  SpoutSDK.cpp
-  SpoutSender.cpp
-  SpoutSenderNames.cpp
-  SpoutSharedMemory.cpp
-  SpoutUtils.cpp
+d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(326): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(331): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(912): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(913): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(914): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\math\ofmatrix4x4.h(915): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+d:\developer\of_v0.10.0_vs2017_release\apps\myapps\depthvideorecorder\src\ofapp.h(29): warning C4091: 'typedef ': ignorado à esquerda de 'ofApp::RenderingDefs' quando nenhuma variável é declarada
+d:\developer\of_v0.10.0_vs2017_release\apps\myapps\depthvideorecorder\src\ofapp.cpp(102): warning C4267: 'inicializando': conversão de 'size_t' para 'int', possível perda de dados
+d:\developer\of_v0.10.0_vs2017_release\apps\myapps\depthvideorecorder\src\ofapp.cpp(144): warning C4996: 'ofPixels_<unsigned char>::getPixels': Use getData instead
+  d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\graphics\ofpixels.h(311): note: consulte a declaração de 'ofPixels_<unsigned char>::getPixels'
+d:\developer\of_v0.10.0_vs2017_release\apps\myapps\depthvideorecorder\src\ofapp.cpp(148): warning C4996: 'ofPixels_<unsigned char>::getPixels': Use getData instead
+  d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\graphics\ofpixels.h(311): note: consulte a declaração de 'ofPixels_<unsigned char>::getPixels'
+d:\developer\of_v0.10.0_vs2017_release\apps\myapps\depthvideorecorder\src\ofapp.cpp(251): warning C4996: 'ofPixels_<unsigned char>::getPixels': Use getData instead
+  d:\developer\of_v0.10.0_vs2017_release\libs\openframeworks\graphics\ofpixels.h(311): note: consulte a declaração de 'ofPixels_<unsigned char>::getPixels'
      Criando biblioteca bin\allInOne.lib e objeto bin\allInOne.exp
   Gerando código
-  All 617 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  0 of 617 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
   Finalizada a geração de código
   testRealSense.vcxproj -> D:\Developer\of_v0.10.0_vs2017_release\apps\myApps\depthVideoRecorder\bin\allInOne.exe
   
