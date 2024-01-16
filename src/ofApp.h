@@ -2,21 +2,28 @@
 
 #include "ofMain.h"
 #include "ofxSpout.h"
-//#include "ofVideoPlayer.h"
+#include "ofxGui.h"
 #include <librealsense2/rs.hpp>
+#include "colormaps/ColorMap.h"
 
 class ofApp : public ofBaseApp{
 public:
     void setup();
-    void update();
-    void draw();
+	void finishSetup();
+    
+	void update();
+	void updateFromRealSense();
+	void updateFromVideoFile();
+	
+	void draw();
 
 	void keyReleased(int key);
 
-	void realsenseUpdate();
+	
     
     rs2::pipeline pipe;
-    rs2::device* device;
+	rs2::pipeline_profile pipelineProfile;
+    rs2::device device;
     
     rs2::points points;
     rs2::pointcloud pc;
@@ -45,7 +52,8 @@ protected:
 	void convert16BitTo3Channel8bit(unsigned short* in, int in_size, unsigned char* out);
 	void convert16BitTo3Channel8bit_mapped(unsigned short* in, int in_size, unsigned char* out, unsigned char** map);
 	void convert3Channel8bitTo16Bit(unsigned char* in, int in_size, unsigned short* out);
-	void convert3Channel8bitTo16Bit_unmapped(unsigned char* in, int out_size, unsigned short* out, unsigned char** map);
+	void convert_mapped3Channel8bitTo16Bit(unsigned char* in, int out_size, unsigned short* out, unsigned char** map);
+	void applyNearAndFar(unsigned short* data, int size);
 
 	//ofPixels depthPixels;
 
@@ -69,8 +77,13 @@ protected:
 
 	bool testConversions_US_UC3Channels(bool logToConsole);
 
+	const std::string FNAME_INTRINSIC_PARAMS = "/depthIntrinsicParams.json";
 	rs2_intrinsics* realSenseDepthIntrinsics;
-	void ofApp::writeRealSenseIntrinsics(const char* p_filepath);
+	void writeRealSenseIntrinsics(std::string p_filepath);
+	void readRealSenseIntrinsics(std::string p_filepath);
+
+	const std::string FNAME_DEVICE_INFO = "/device_info.json";
+	void writeDeviceInfo(std::string p_filepath);
 
 	rs2::vertex* xyz_pointCloud;
 	void pointCloudFromDepth(unsigned short* p_depth, rs2_intrinsics* p_intrinsics, rs2::vertex* xyz_out);
@@ -81,7 +94,13 @@ protected:
 	unsigned char* differenceDepthRGB;
 
 	//	4096 RGB colors
-	unsigned char** colormap;
+	ColorMap colormap;
 
 	ofFpsCounter fpsCounter;
+
+	ofParameter<unsigned short> far_US;
+	ofParameter<unsigned short> near_US;
+	ofxPanel gui;
+
+	unsigned short auxUS;
 };
