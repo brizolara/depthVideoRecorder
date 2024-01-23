@@ -1,5 +1,7 @@
 #pragma once
 
+#define LP_REALSENSE_D455
+
 #include "ofMain.h"
 #include "ofxSpout.h"
 #include "ofxGui.h"
@@ -14,21 +16,23 @@ public:
 	void update();
 	void updateFromRealSense();
 	void updateFromVideoFile();
-	
+
 	void draw();
 
 	void keyReleased(int key);
 
 	
-    
     rs2::pipeline pipe;
 	rs2::pipeline_profile pipelineProfile;
     rs2::device device;
+
+	rs2::align* alignToDepth;
     
     rs2::points points;
     rs2::pointcloud pc;
     
-    ofVboMesh mesh;
+    ofVboMesh pointCloud;
+	ofVboMesh pointCloud2;
     ofEasyCam cam;
 
 	typedef struct RenderingDefs {
@@ -36,10 +40,11 @@ public:
 	};
 	RenderingDefs renderingDefs;
   
-	ofxSpout::Sender spoutSender;
+	ofxSpout::Sender spoutSenderDepth;
+	ofxSpout::Sender spoutSenderRGB;
 
-	ofTexture depthOFTexture;
 	ofImage depthOFImage;
+	ofImage colorOFImage;
 
 	ofImage reconstructed_depthOFImage;
 
@@ -69,9 +74,11 @@ protected:
 
 	typedef enum {
 		DEVICE,
-		VIDEOPLAYBACK
+		VIDEOPLAYBACK,
+		RECORDING_POINTCLOUD,
+		POINTCLOUD_PLAYBACK
 	} MODE;
-	MODE mode = MODE::DEVICE;
+	MODE mode;
 
 	ofVideoPlayer depthVidPlayer;
 
@@ -88,7 +95,10 @@ protected:
 	rs2::vertex* xyz_pointCloud;
 	void pointCloudFromDepth(unsigned short* p_depth, rs2_intrinsics* p_intrinsics, rs2::vertex* xyz_out);
 
-	void fillVboMesh(int p_npts, rs2::vertex* p_vertices);
+	void fillVboMesh(int p_npts, rs2::vertex* p_vertices, const unsigned char* p_colors);
+	#ifdef LP_REALSENSE_D455
+	void fillVboMesh_transformed(int p_npts, rs2::vertex* p_vertices, const unsigned char* p_colors);
+	#endif
 
 	unsigned short* reconstructedDepth;
 	unsigned char* differenceDepthRGB;
@@ -98,9 +108,29 @@ protected:
 
 	ofFpsCounter fpsCounter;
 
+	//	Near and Far planes of distance coded as unsigned short
 	ofParameter<unsigned short> far_US;
 	ofParameter<unsigned short> near_US;
-	ofxPanel gui;
 
-	unsigned short auxUS;
+	typedef struct CropBox
+	{
+		float depth, width, height, posZ, posX, posY;
+	};
+	CropBox box;
+
+	//	Point cloud cropping planes
+	ofParameter<float> nearMeters;
+	ofParameter<float> farMeters;
+
+	ofParameter<float> highMeters;
+	ofParameter<float> lowMeters;
+
+	ofParameter<float> leftMeters;
+	ofParameter<float> rightMeters;
+
+	ofxPanel nearFar_Gui;
+	ofxPanel cropPointCloud_Gui;
+
+	
+	ofFileDialogResult savePLYDialog;
 };

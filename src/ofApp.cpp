@@ -3,39 +3,62 @@
 #include "librealsense2/rsutil.h"
 #include "librealsense2/h/rs_option.h"
 #include "librealsense2/h/rs_sensor.h"
+#include "librealsense2/h/rs_processing.h"
 #include "json.hpp"
 #include "ofUtils.h"
 #include "ofMath.h"
 
-//	[Brizo] 04-01-2024 - 16-01-2024
+//	[Brizo] 04-01-2024 - 22-01-2024
 //	This is a LabPresenca's tool for making Tore Virtual, a VR movie that documents a indigenous ritual in a transfigured way,
 //in co-creation with Fulni-O people
-//	Tore Virtual is on the making thanks to a Funarte public prize, from the brazilian federal government.
+//	Tore Virtual is on the making thanks to a Funarte (Fundacao Nacional das Artes, brazilian Ministry of Culture) public prize.
 //	
 //	What this does:
 //	- Applies Near/Far clipping in depth video from RealSense D455
-//	- Converts the RealSense depth video (it's a 16-bit depth stream) to 8-bit/channel RGB and forwards via Spout...
-//		- Green channel gets multiplied by a factor, because its range is too small - TODO: review the GMult feature
-//	- ... so a third-party application records the depth video (lossless, RGB! Up until now, point cloud didn't survive the slightest encoding)
-//	- Creates point cloud from depth
-//	- Reads recorded depth videos and recovers the depth values correctly (and hence, point cloud)[OK, but test for big depth spans]
-//
+//	- Converts the RealSense depth video (it's a 16-bit depth stream) to 8-bit/channel RGB and put the color stream alongside it - making a 2x wide video -,
+//and forwards this video via Spout...
+//	- ... so a third-party application records this video (lossless, RGB! Up until now, point cloud didn't survive the slightest encoding of the depth stream)
+//	- Creates point cloud from depth (either device depth stream or video), colored from the color stream (if live) or the color portion of the video file
+//	- Allows writing to file the point cloud generated from the video file, in a vertex-only .PLY file per frame 
+//		- With a nice clipping cuboid (=rectangular prism) - frustrum would be nice, but let's keep it simple...
+//	
 //	Coming Soon:
-//	- Save somewhere the value of the green channel multiplier (GMult) of a recording - TODO: review the GMult feature
-//	- Write to file the point clouds generated from depth video file, in a vertex-only .OBJ file per frame
-//	- And, of course, perform tests rendering point clouds from our OBJ files...
-//	- Support for Kinect v2 (a.k.a. Kinect ONE)
-//	- Add a clipping cuboid (=rectangular prism) - frustrum would be nice, but let's keep it simple...
+//	- Support for Kinect v2 (a.k.a. Kinect ONE), by Anthony Bet (@AnthonyAposta)
+
 //
-//	Instructions:
-//	- Press 'l' to load a video file instead of using the sensor.
-//	- Check ofApp::keyReleased below
+//	Instructions are on screen (or check ofApp::keyReleased below)
 
 void ofApp::setup()
 {
-	gui.setup("Near/Far clipping");
-	gui.add(near_US.set("Near", 417, 0, 512));
-	gui.add(far_US.set("Far", 793, 256, 4096));
+	mode = MODE::DEVICE;
+
+	nearFar_Gui.setup("Near/Far clipping");
+	nearFar_Gui.add(near_US.set("Near", 417, 0, 512));
+	nearFar_Gui.add(far_US.set("Far", 793, 256, 4096));
+
+	cropPointCloud_Gui.setup("Crop points to export", "crop_settings.xml");
+	
+#ifdef LP_KINECTV2
+	cropPointCloud_Gui.add(nearMeters.set("Near", 0.5, 0.5, 4.5));
+	cropPointCloud_Gui.add(farMeters.set("Far", 4.5, 0.5, 4.5));
+
+	cropPointCloud_Gui.add(lowMeters.set("Low", 2.5, -2.5, 2.5));
+	cropPointCloud_Gui.add(highMeters.set("High", -2.5, -2.5, 2.5));
+
+	cropPointCloud_Gui.add(leftMeters.set("Left", -2.5, -2.5, 2.5));
+	cropPointCloud_Gui.add(rightMeters.set("Right", 2.5, -2.5, 2.5));
+#else 
+	#ifdef LP_REALSENSE_D455
+	cropPointCloud_Gui.add(lowMeters.set("Down", 2.0, -4.0, 4.0));
+	cropPointCloud_Gui.add(highMeters.set("Up", -2.0, -4.0, 4.0));
+
+	cropPointCloud_Gui.add(farMeters.set("Far", 3.0, -6.0, 6.0));
+	cropPointCloud_Gui.add(nearMeters.set("Near", -3.0, -6.0, 6.0));
+
+	cropPointCloud_Gui.add(rightMeters.set("Right", -2.0, -4.0, 4.0));
+	cropPointCloud_Gui.add(leftMeters.set("Left", 2.0, -4.0, 4.0));
+	#endif // LP_REALSENSE_D455
+#endif // LP_KINECTV2
 
 	//	TESTS
 	//	* Testing conversions used to transcode depth to video and vice-versa
@@ -46,7 +69,11 @@ void ofApp::setup()
     ofSetVerticalSync(true);
     ofSetLogLevel(OF_LOG_NOTICE);
 
-	mesh.setMode(OF_PRIMITIVE_POINTS);
+	cam.setUpAxis(glm::vec3(0, 0, 1));
+	cam.setGlobalPosition(glm::vec3(4, 0, 0));
+	cam.lookAt(glm::vec3(0, 0, 0), glm::vec3(0, 0, 1));
+
+	pointCloud.setMode(OF_PRIMITIVE_POINTS);
 
 	glEnable(GL_POINT_SMOOTH); // use circular points instead of square points
 	glPointSize(renderingDefs.pointSize); // make the points bigger
@@ -54,13 +81,13 @@ void ofApp::setup()
 	//
 	//	RealSense camera
 
-	//	As the optimal depth resolution of the D455 device is 848x480, we don't change the default configuration
-	/*rs2::config cfg;
+	rs2::config cfg;
 	cfg.enable_device("231122302600"); // NOTE: This HARD-CODED number is the serial number of your device
-	cfg.enable_stream(RS2_STREAM_COLOR, 1280, 720, RS2_FORMAT_RGB8, 30);
-	cfg.enable_stream(RS2_STREAM_DEPTH, 1280, 720, RS2_FORMAT_Z16, 30);	*/
+	cfg.enable_stream(RS2_STREAM_COLOR, 1280, 720, RS2_FORMAT_RGB8, 30);	//	higher resolution because we'll align it to the depth frame and generate coloured point cloud
+	cfg.enable_stream(RS2_STREAM_DEPTH, 848, 480, RS2_FORMAT_Z16, 30);	//	The optimal depth resolution of the D455 device is 848x480
+	alignToDepth = new rs2::align(rs2_stream::RS2_STREAM_DEPTH);
 
-	pipelineProfile = pipe.start();	//	if we use custom configuration: pipe.start(cfg);
+	pipelineProfile = pipe.start(cfg);	//	if we use custom configuration: pipe.start(cfg);
 
 	realSenseDepthIntrinsics = nullptr;
 }
@@ -70,8 +97,12 @@ void ofApp::setup()
 void ofApp::finishSetup()
 {
 	//	Spout - It shares the video memory with other Spout-enabled applications. We use for recording the depth stream
-	spoutSender.init("DepthVideo", w, h);// , OF_PIXELS_RGB);
+	spoutSenderDepth.init("DepthVideo", w, h);// , OF_PIXELS_RGB);
+	spoutSenderRGB.init("RGBVideoRegistered", w, h);
 
+	//RGB_OFPixels.allocate(w, h, OF_IMAGE_COLOR);
+	colorOFImage.allocate(w, h, OF_IMAGE_COLOR);
+	
 	depthFrameRGB = new unsigned char[w*h * 3];
 
 	//	NOTE - We would prefer to work with 16-bit monochrome depth images and depth video, but...
@@ -105,7 +136,7 @@ void ofApp::convert16BitTo3Channel8bit(unsigned short* in, int in_size, unsigned
 {
 	for (int i = 0; i < in_size; i++) {
 		out[i*3 + 0] = static_cast<unsigned char>(in[i] & 0xFF); // lower byte
-		out[i*3 + 1] = GMult * static_cast<unsigned char>((in[i] >> 8) & 0xFF); // higher byte
+		out[i*3 + 1] = /*GMult **/ static_cast<unsigned char>((in[i] >> 8) & 0xFF); // higher byte
 		out[i*3 + 2] = 0;
 	}
 }
@@ -114,7 +145,7 @@ void ofApp::convert16BitTo3Channel8bit(unsigned short* in, int in_size, unsigned
 void ofApp::convert3Channel8bitTo16Bit(unsigned char* in, int out_size, unsigned short* out)
 {
 	for (int i = 0; i < out_size; i++) {
-		out[i] = (unsigned short)(in[3*i + 1])*256/GMult + unsigned short(in[3*i]);
+		out[i] = (unsigned short)(in[3*i + 1])*256/*/GMult*/ + unsigned short(in[3*i]);
 	}
 }
 
@@ -162,6 +193,10 @@ void ofApp::applyNearAndFar(unsigned short* data, int size)
 //--------------------------------------------------------------
 void ofApp::writeRealSenseIntrinsics(std::string p_filepath)
 {
+	std::string fullpath = std::string(p_filepath) + this->FNAME_INTRINSIC_PARAMS;
+
+	std::cout << "Writing RealSense device depth-related intrinsic parameters to " << fullpath << std::endl;
+
 	nlohmann::json params;
 
 	params["depth_intrin"]["width"] = realSenseDepthIntrinsics->width;
@@ -183,7 +218,7 @@ void ofApp::writeRealSenseIntrinsics(std::string p_filepath)
 	color_extrin_to_depth = color_profile.as<rs2::video_stream_profile>().get_extrinsics_to(depth_profile);
 	depth_extrin_to_color = depth_profile.as<rs2::video_stream_profile>().get_extrinsics_to(color_profile);*/
 	
-	std::ofstream f(std::string(p_filepath) + this->FNAME_INTRINSIC_PARAMS);
+	std::ofstream f(fullpath);
 	f << params;
 	f.flush();
 }
@@ -235,54 +270,25 @@ void ofApp::writeDeviceInfo(std::string p_filepath)
 }
 
 //--------------------------------------------------------------
-//	NOTE - Includes the zero-depth elements (i.e., points where depth couldn't be estimated). We left to you to get rid of them...
-//	Adapted from https://github.com/IntelRealSense/librealsense/blob/v2.24.0/wrappers/python/examples/box_dimensioner_multicam/helper_functions.py#L121-L147
+///	Slight adaptation of rsutil.h's static void rs2_deproject_pixel_to_point(float point[3], const struct rs2_intrinsics * intrin, const float pixel[2], float depth)
+///	NOTE - it's different from https://github.com/IntelRealSense/librealsense/blob/v2.24.0/wrappers/python/examples/box_dimensioner_multicam/helper_functions.py#L121-L147
+///	NOTE - Includes the zero-depth elements (i.e., points where depth couldn't be estimated). We left to you to get rid of them...
 void ofApp::pointCloudFromDepth(unsigned short* p_depth, rs2_intrinsics* p_intrinsics, rs2::vertex* xyz_out)
 {
-
-//	Convert the depthmap to a 3D point cloud
-//
-//	Parameters :
-//---------- -
-//depth_frame : rs.frame()
-//	The depth_frame containing the depth map
-//	camera_intrinsics : The intrinsic values of the imager in whose coordinate system the depth_frame is computed
-//
-//	Return :
-//----------
-//	x : array
-//	The x values of the pointcloud in meters
-//	y : array
-//	The y values of the pointcloud in meters
-//	z : array
-//	The z values of the pointcloud in meters
-
-/*static void rs2_deproject_pixel_to_point(float point[3], const struct rs2_intrinsics * intrin, const float pixel[2], float depth)
-{
-	assert(intrin->model != RS2_DISTORTION_MODIFIED_BROWN_CONRADY); // Cannot deproject from a forward-distorted image
-	assert(intrin->model != RS2_DISTORTION_FTHETA); // Cannot deproject to an ftheta image
+	assert(p_intrinsics->model != RS2_DISTORTION_MODIFIED_BROWN_CONRADY); // Cannot deproject from a forward-distorted image
+	assert(p_intrinsics->model != RS2_DISTORTION_FTHETA); // Cannot deproject to an ftheta image
 	//assert(intrin->model != RS2_DISTORTION_BROWN_CONRADY); // Cannot deproject to an brown conrady model
 
-	float x = (pixel[0] - intrin->ppx) / intrin->fx;
-	float y = (pixel[1] - intrin->ppy) / intrin->fy;
-	if (intrin->model == RS2_DISTORTION_INVERSE_BROWN_CONRADY)
-	{
-		float r2 = x * x + y * y;
-		float f = 1 + intrin->coeffs[0] * r2 + intrin->coeffs[1] * r2*r2 + intrin->coeffs[4] * r2*r2*r2;
-		float ux = x * f + 2 * intrin->coeffs[2] * x*y + intrin->coeffs[3] * (r2 + 2 * x*x);
-		float uy = y * f + 2 * intrin->coeffs[3] * x*y + intrin->coeffs[2] * (r2 + 2 * y*y);
-		x = ux;
-		y = uy;
-	}
-	point[0] = depth * x;
-	point[1] = depth * y;
-	point[2] = depth;
-}*/
+	float f, x, y, r2 = 0;
 	for (int i = 0; i < h; i++) {
 		for (int j = 0; j < w; j++) {
+			x = (i - p_intrinsics->ppx) / p_intrinsics->fx;
+			y = (j - p_intrinsics->ppy) / p_intrinsics->fy;
+			r2 = x * x + y * y;
+			f = 1 + p_intrinsics->coeffs[0] * r2 + p_intrinsics->coeffs[1] * r2*r2 + p_intrinsics->coeffs[4] * r2*r2*r2;
+			xyz_out[i*w + j].x = x * f + 2 * p_intrinsics->coeffs[2] * x*y + p_intrinsics->coeffs[3] * (r2 + 2 * x*x);
+			xyz_out[i*w + j].y = y * f + 2 * p_intrinsics->coeffs[3] * x*y + p_intrinsics->coeffs[2] * (r2 + 2 * y*y);
 			xyz_out[i*w + j].z = p_depth[i*w + j] / 1000.0;
-			xyz_out[i*w + j].x = xyz_out[i*w + j].z * (i - p_intrinsics->ppx) / p_intrinsics->fx;
-			xyz_out[i*w + j].y = xyz_out[i*w + j].z * (j - p_intrinsics->ppy) / p_intrinsics->fy;
 		}
 	}
 }
@@ -322,37 +328,79 @@ bool ofApp::testConversions_US_UC3Channels(bool logToConsole)
 }
 
 //--------------------------------------------------------------
-void ofApp::fillVboMesh(int p_npts, rs2::vertex* p_vertices)
+void ofApp::fillVboMesh(int p_npts, rs2::vertex* p_vertices, const unsigned char* p_colors)
 {
 	// Create oF mesh
-	mesh.clear();
+	pointCloud.clear();
 
-	if (p_npts != 0) {
-		for (int i = 0; i < p_npts; i++) {
-			if (p_vertices[i].z > 0.01f) {
-				//std::cout << vs[i].z << " ";
-				const rs2::vertex v = p_vertices[i];
-				glm::vec3 v3(10.0*p_vertices[i].x, 10.0*p_vertices[i].y, 10.0*p_vertices[i].z);
-				mesh.addVertex(v3);
-				mesh.addColor(ofFloatColor(0, 0, ofMap(p_vertices[i].z, 2, 6, 1, 0), 0.8));
+	glm::vec3 v3;
+
+	if (p_npts != 0) 
+	{
+		for (int i = 0; i < p_npts; i++)
+		{
+			v3.x = p_vertices[i].x;
+			v3.y = p_vertices[i].y;
+			v3.z = p_vertices[i].z;
+
+			if ((v3.z > nearMeters.get()) && (v3.z < farMeters.get())) {
+				if ((v3.x > rightMeters.get()) && (v3.x < leftMeters.get())) {
+					if ((v3.y > highMeters.get()) && (v3.y < lowMeters.get())) {
+						pointCloud.addVertex(v3);
+						pointCloud.addColor(ofFloatColor(p_colors[i * 3] / 256.0, p_colors[i * 3 + 1] / 256.0, p_colors[i * 3 + 1] / 256.0, 0.8));
+					}
+				}
 			}
 		}
 	}
 }
 
 //--------------------------------------------------------------
+#ifdef LP_REALSENSE_D455
+///	NOTE - The point cloud vertices calculated live (i.e., mode == MODE::DEVICE) at rs2::pointcloud::calculate(depth) are different from the ones
+///we calculate from the depth stream in ofApp::pointCloudFromDepth. TODO - Discover WHY
+void ofApp::fillVboMesh_transformed(int p_npts, rs2::vertex* p_vertices, const unsigned char* p_colors)
+{
+	// Create oF mesh
+	pointCloud.clear();
+
+	glm::vec3 v3;
+
+	if (p_npts != 0)
+	{
+		for (int i = 0; i < p_npts; i++)
+		{
+			//	Read NOTE above
+			v3.x = p_vertices[i].y;
+			v3.y = p_vertices[i].x;
+			v3.z = p_vertices[i].z;
+
+			if ((v3.z > nearMeters.get()) && (v3.z < farMeters.get())) {
+				if ((v3.x > rightMeters.get()) && (v3.x < leftMeters.get())) {
+					if ((v3.y > highMeters.get()) && (v3.y < lowMeters.get())) {
+						pointCloud.addVertex(v3);
+						pointCloud.addColor(ofFloatColor(p_colors[i * 3] / 256.0, p_colors[i * 3 + 1] / 256.0, p_colors[i * 3 + 1] / 256.0, 0.8));
+					}
+				}
+			}
+		}
+	}
+}
+#endif // LP_REALSENSE_D455
+
+//--------------------------------------------------------------
 void ofApp::updateFromRealSense()
 {
 	// Get depth data from camera
-	auto frames = pipe.wait_for_frames();
-	auto depth = frames.get_depth_frame();
+	rs2::frameset frameset = pipe.wait_for_frames();
+	auto depth = frameset.get_depth_frame();
+	
 	if (!depth) {
 		return;
 	}
 
-	this->applyNearAndFar((unsigned short*)(depth.get_data()), w*h);
-
-	points = pc.calculate(depth);
+	//	Here the color frame is aligned to the depth frame, and, hence, resized to w x h
+	frameset = alignToDepth->process(frameset);
 
 	bool deviceInfoLogged = (realSenseDepthIntrinsics != nullptr);
 	if (!deviceInfoLogged)
@@ -360,18 +408,7 @@ void ofApp::updateFromRealSense()
 		realSenseDepthIntrinsics = new rs2_intrinsics();
 		*realSenseDepthIntrinsics = depth.get_profile().as<rs2::video_stream_profile>().get_intrinsics();
 
-		std::cout << "RealSense device intrinsic parameters: " << std::endl;
-		std::cout << "k1, k2, p1, p2, k3: " << realSenseDepthIntrinsics->coeffs[0] << " " << realSenseDepthIntrinsics->coeffs[1]
-			<< " " << realSenseDepthIntrinsics->coeffs[2] << " " << realSenseDepthIntrinsics->coeffs[3] << " "
-			<< realSenseDepthIntrinsics->coeffs[4] << std::endl;
-		std::cout << "fx, fy: " << realSenseDepthIntrinsics->fx << " " << realSenseDepthIntrinsics->fy << std::endl;
-		std::cout << "width, height: " << realSenseDepthIntrinsics->width << " " << realSenseDepthIntrinsics->height << std::endl;
-		std::cout << "distortion model: " << realSenseDepthIntrinsics->model << std::endl;
-		std::cout << "ppx, ppy: " << realSenseDepthIntrinsics->ppx << " " << realSenseDepthIntrinsics->ppy << std::endl;
-
-		std::cout << "Writing json file to " << ofToDataPath("", true) << std::endl;
-
-		writeRealSenseIntrinsics(ofToDataPath("",true));
+		writeRealSenseIntrinsics(ofToDataPath("", true));
 
 		device = pipelineProfile.get_device();
 
@@ -391,8 +428,15 @@ void ofApp::updateFromRealSense()
 
 		finishSetup();
 	}
-	
-	fillVboMesh(points.size(), (rs2::vertex*) points.get_vertices());
+
+	this->applyNearAndFar((unsigned short*)(depth.get_data()), w*h);
+
+	points = pc.calculate(depth);
+
+	const unsigned char* colorStream = static_cast<const unsigned char*> (frameset.get_color_frame().get_data());
+	colorOFImage.setFromPixels(colorStream, w, h, OF_IMAGE_COLOR);
+		
+	fillVboMesh/*_transformed*/(points.size(), (rs2::vertex*) points.get_vertices(), colorStream);
 
 	//	NOTE - Investigate why the parameters below aren't correct (or if there's a bug):
 	//depthOFTexture.allocate(848, 480, GL_INTENSITY16);
@@ -425,10 +469,24 @@ void ofApp::updateFromVideoFile()
 		finishSetup();
 	}
 
-	unsigned char* videoFrameRGB = depthVidPlayer.getPixelsRef().getPixels();
-	depthOFImage.setFromPixels(videoFrameRGB, w, h, OF_IMAGE_COLOR);
+	if (mode == MODE::RECORDING_POINTCLOUD) {
+		depthVidPlayer.setPaused(true);
+	}
+	else {
+		depthVidPlayer.update();
+	}
 
-	this->convert3Channel8bitTo16Bit(depthOFImage.getPixelsRef().getData(), w*h, reconstructedDepth);
+	//	Video file has depth and color images sibe by side
+	unsigned char* videoFrameRGB = depthVidPlayer.getPixelsRef().getPixels();
+	//	This is why both depthOFImage and colorOFImage get the whole frame, with w*2 width...
+	depthOFImage.setFromPixels(videoFrameRGB, w * 2, h, OF_IMAGE_COLOR);
+	colorOFImage.setFromPixels(videoFrameRGB, w * 2, h, OF_IMAGE_COLOR);
+	//	... and then they are cropped according to the desired part:
+	depthOFImage.crop(0, 0, w, h);	//	left half: depth
+	colorOFImage.crop(w, 0, w, h);	//	right half: color
+
+#ifdef LP_REALSENSE_D455
+	convert3Channel8bitTo16Bit(depthOFImage.getPixelsRef().getData(), w*h, reconstructedDepth);
 
 	/*
 	//	Converting rgb read from video to unsigned short and then back to RGB to test the RGB->US conversion
@@ -441,11 +499,38 @@ void ofApp::updateFromVideoFile()
 	}
 	reconstructed_depthOFImage.setFromPixels(differenceDepthRGB, w, h, OF_IMAGE_COLOR);*/
 
-	this->applyNearAndFar(reconstructedDepth, w*h);
-
+	applyNearAndFar(reconstructedDepth, w*h);
 	pointCloudFromDepth(reconstructedDepth, realSenseDepthIntrinsics, xyz_pointCloud);
 
-	fillVboMesh(w*h, xyz_pointCloud);
+	fillVboMesh_transformed(w*h, xyz_pointCloud, colorOFImage.getPixelsRef().getData());
+#else
+	#ifdef LP_KINECTV2
+	convert3Channel8bitTo32bit(depthOFImage.getPixelsRef().getData(), w * h, reconstructedDepth);
+	applyNearAndFar(reconstructedDepth, w*h);
+	fillVboMesh(revertedRawPixelsInt, RGBOFImage.getPixelsRef(), h, w);
+	#endif
+#endif
+
+	if (mode == MODE::RECORDING_POINTCLOUD)
+	{
+		// Save mesh
+		//std::string fullPath = savePLYDialog.filePath + "\\PLY_data_" + to_string(depthVidPlayer.getCurrentFrame()) + ".ply";
+		std::string fullPath = ofToDataPath("", true) + "\\PLY_data_" + to_string(depthVidPlayer.getCurrentFrame()) + ".ply";
+		std::cout << "Saving point cloud in " << fullPath << ". Total frames: " << depthVidPlayer.getTotalNumFrames() << endl;
+		pointCloud.save(fullPath);
+		
+		if (depthVidPlayer.getCurrentFrame() == (depthVidPlayer.getTotalNumFrames() - 1)) {
+			std::cout << "Point cloud sequence saved!" << std::endl;
+			mode = MODE::DEVICE;
+		}
+		else {
+			//	And advance solely 1 frame on video
+			depthVidPlayer.setPaused(false);
+			depthVidPlayer.nextFrame();
+			depthVidPlayer.update();
+		}
+	}
+
 }
 
 //--------------------------------------------------------------
@@ -455,51 +540,91 @@ void ofApp::update()
 	{
 		updateFromRealSense();
 
-		spoutSender.send(depthOFImage.getTexture());
+		spoutSenderDepth.send(depthOFImage.getTexture());
+		spoutSenderRGB.send(colorOFImage.getTexture());
 	}
-	else 
+	else if(mode != MODE::POINTCLOUD_PLAYBACK)
 	{
 		updateFromVideoFile();
 	}
 }
 
 //--------------------------------------------------------------
-void ofApp::draw(){
-    
+void ofApp::draw()
+{
     //ofBackground(200);
 
-	//	TODO - Texture a pkane with our ofImage so we can render both it and the point cloud
+	std::string instructions;
+	if (mode == MODE::DEVICE) {
+		instructions.append("DEVICE (LIVE) MODE\n[Space Bar]: Alternate depth+color / point cloud visualization\n[L]: Load video recording (go to video playback mode)");
+	}
+	else if (mode == MODE::VIDEOPLAYBACK) {
+		instructions.append("VIDEO PLAYBACK MODE\n[Space Bar]: Alternate depth+color / point cloud visualization\n[S]: Save OBJ files\n[D]: Back to device mode");
+	}
+
+	//	TODO - Texture a plane with our ofImage so we can render both it and the point cloud
 	if (this->drawOption == DRAW_OPT::DEPTH)
 	{
 		depthOFImage.draw(0, 0);
-		if (mode == MODE::VIDEOPLAYBACK) {
-			reconstructed_depthOFImage.draw(w, 0);
-		}
+		colorOFImage.draw(w, 0);
+
+		ofDrawBitmapString("(Apply only with live sensor data,\nnot on loaded depth video files)", 12, 78);
+		nearFar_Gui.draw();
 	}
-	else {	//	Point cloud
+	else
+	{
+		//	Point cloud
 		cam.begin();
-		float s = 200;
-		ofScale(s, -s, -s);
+		float s = 100;
+		ofScale(s, s, s);
 		ofDrawAxis(1);
 
+		ofSetColor(255, 128);
+
 		ofPushMatrix();
-		ofTranslate(0, 1, 0);
-		ofRotateZDeg(90);
-		ofSetColor(0, 200);
+		ofRotateY(90);
 		ofDrawGridPlane(1, 5, true);
 		ofPopMatrix();
 
-		mesh.drawVertices();
+		ofPushMatrix();
+		//ofRotateX(-90);
+		pointCloud.drawVertices();
+		pointCloud2.drawVertices();
+		ofPopMatrix();
+
+		// Referece cube
+
+		box.depth = abs(farMeters.get() - nearMeters.get());
+		box.width = abs(leftMeters.get() - rightMeters.get());
+		box.height = abs(highMeters.get() - lowMeters.get());
+
+		box.posZ = (box.depth / 2) + nearMeters.get();
+		box.posX = (box.width / 2) + rightMeters.get();
+		box.posY = (box.height / 2) + highMeters.get(); 
+
+		ofNoFill();
+		ofSetLineWidth(4.0);	//	Not supported, may not work
+		ofSetColor(255, 0, 255);
+		ofDrawBox(box.posX, box.posY, box.posZ, box.width, box.height, box.depth);
+		ofFill();
 
 		cam.end();
+
+		ofSetColor(255);
+
+		cropPointCloud_Gui.draw();
+
+		if (mode != MODE::RECORDING_POINTCLOUD) {
+			instructions.append("\n\nNAVIGATION:\n[left click+drag]: Rotate\n[mouse wheel]: Zoom\n[left click+drag]+[m]: Move");
+		}
 	}
 
-	//if (!hideGUI) {
-		gui.draw();
-		ofSetColor(255);
-		ofDrawBitmapString("(Apply only with live sensor data,\nnot on loaded depth video files)", 12, 78);
-	//}
-    
+	if (mode == MODE::RECORDING_POINTCLOUD) {
+		instructions.append("RECORDING TO .PLY FILES. Please wait until finish");
+	}
+
+	int rightMaringGUIOffset = ofGetWidth() - 520;
+	ofDrawBitmapStringHighlight(instructions, rightMaringGUIOffset, 20);  
 }
 
 //--------------------------------------------------------------
@@ -509,13 +634,13 @@ void ofApp::keyReleased(int key)
 	//	Some tests on the point cloud visualization:
 
 	if (key == ofKey::OF_KEY_RIGHT) {
-		mesh.setMode(OF_PRIMITIVE_POINTS);
+		pointCloud.setMode(OF_PRIMITIVE_POINTS);
 	}
 	else if (key == ofKey::OF_KEY_LEFT) {
-		mesh.setMode(OF_PRIMITIVE_LINES);
+		pointCloud.setMode(OF_PRIMITIVE_LINES);
 	}
 	else if ( ((key-48)>=0) && ((key-48)<10) ){
-		mesh.setMode(ofPrimitiveMode(key - 48));
+		pointCloud.setMode(ofPrimitiveMode(key - 48));
 	}
 	else if (key == '-') {
 		if ((renderingDefs.pointSize - 0.1) > 0) {
@@ -531,7 +656,7 @@ void ofApp::keyReleased(int key)
 	//
 	//	Multiplier of the green channel for the depth video:
 
-	else if (key == ofKey::OF_KEY_UP) {
+	/*else if (key == ofKey::OF_KEY_UP) {
 		GMult++;
 		std::cout << "Green channel multiplier: " << GMult << std::endl;
 	}
@@ -540,7 +665,7 @@ void ofApp::keyReleased(int key)
 			GMult--;
 			std::cout << "Green channel multiplier: " << GMult << std::endl;
 		}
-	}
+	}*/
 
 	//
 	//	Draw option (FIXME - Remove this option and draw everything in 3d)
@@ -570,4 +695,35 @@ void ofApp::keyReleased(int key)
 			mode = MODE::VIDEOPLAYBACK;
 		}
 	}
+	else if (key == 'd') {
+		mode = MODE::DEVICE;
+	}
+	else if (key == 's') {
+		if (mode == MODE::VIDEOPLAYBACK && depthVidPlayer.isLoaded()) 
+		{
+			mode = MODE::RECORDING_POINTCLOUD;
+
+			std::cout << "Started recording point cloud animation to sequence of .PLY files..." << std::endl;
+			
+			//savePLYDialog = ofSystemLoadDialog("Save point cloud animation to sequence of .PLY files", true);	Crashes on some Win10 tests!
+			//if (savePLYDialog.bSuccess) {
+				depthVidPlayer.firstFrame();
+			//}
+		}
+	}
+	else if(key == 'f'){
+		if (mode == MODE::DEVICE) {
+			mode = MODE::POINTCLOUD_PLAYBACK;
+			ofFileDialogResult dialogResult = ofSystemLoadDialog("Test mesh 1");
+			if (dialogResult.bSuccess) {
+				pointCloud.load(dialogResult.getPath());
+			}
+			dialogResult = ofSystemLoadDialog("Test mesh 2");
+			if (dialogResult.bSuccess) {
+				pointCloud2.load(dialogResult.getPath());
+			}
+		}
+	}
+
+	std::cout << ofGetFrameRate() << "FPS" << std::endl;
 }
