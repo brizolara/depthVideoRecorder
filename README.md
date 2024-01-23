@@ -1,26 +1,23 @@
 # depthVideoRecorder
 Tool to facilitate depth video recordings for point cloud footage
 
+This is a [LabPresenca](https://www.labpresenca.com.br)'s tool for making Toré Virtual, a VR movie that documents an indigenous ritual in a transfigured way, in co-creation with Fulni-Ô people.  
+Tore Virtual is on the making thanks to the Funarte Retomada public prize, funded by Fundação Nacional das Artes, from the brazilian Ministry of Culture.
+
+<img src="https://github.com/brizolara/depthVideoRecorder/blob/main/depth-video-recorder.png?raw=true">
+
 ## Overview
-1. Record  
-  1.1. This application decodes depth streams from Kinect v2 (TO-DO) or Intel RealSense into RGB  
-  1.2. Then forwards to a video recorder via Spout (we use the [OBS - Open Broadcaster Software](https://obsproject.com), with the [Spout plugin](https://github.com/Off-World-Live/obs-spout2-plugin))
-2. Playback  
-  2.1. This application reads a recorded video and plays back the corresponding point cloud on-the-fly
-  2.2. If the playback is ok, we record the point cloud animation as a .obj containg the frames in sequence, to be imported in Blender, e.g.
 
-First commit:
-- Converts RealSense 16-bit depth stream to 8-bit/channel RGB and forwards via Spout...
-	- Green channel gets multiplied by a factor, because its range is too small
-- ... so a third-party application records the depth video
-- Creates point cloud from depth
+0. Inspection - Show color depth frame, color frame and point cloud  
+2. Recording  
+  1.1. Depth frames from Intel RealSense (and soon Kinect v2) are decoded into RGB textures and shared via Spout  
+  1.2. The concurrent color frames are also shared via Spout  
+  1.3. Both frames are recorded side-by-side to a video file via a video recorder (we use the [OBS - Open Broadcaster Software](https://obsproject.com) with the [Spout plugin](https://github.com/Off-World-Live/obs-spout2-plugin))  
+    1.3.1. Set up OBS for lossless, RGB, and with same resolution of two depth images side-by-side (1696x960 for our RealSense configuration)! Up until now, the point cloud calculated from the depth video didn't survive the slightest encoding of the depth stream - A well-designed smooth 4096-level color map _may_ give soom room here, so we can have smaller files.
+3. Playback  
+  2.1. Recorded videos can be loaded along the with the reconstructed point cloud on-the-fly  
+  2.2. The point cloud animation (sequence of point clouds) can be saved as a sequence of vertex-only a .ply files, to be imported in Blender, e.g.
 
-TODO:
-  - Save somewhere the value of the green channel multiplier (GMult) of a recording
-  - Read recorded depth videos and recover the depth values correctly
-  - From these videos, generate the point cloud for each frame and write the frames sequentially in a vertex-only .OBJ file
-    - And, of course, perform tests rendering point clouds from our OBJ files...
-  - Port this application to Kinect v2 (a.k.a. Kinect ONE)
-
-## Usage	instructions
-Check out ofApp::keyReleased...
+## Setup
+  OpenFrameworks 0.10.0. We are using Visual Studio 2017.  
+  OpenFrameworks addons: ofxGui, ofxRealSense2, ofxSpout.
