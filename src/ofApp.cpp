@@ -8,8 +8,12 @@
 #include "ofUtils.h"
 #include "ofMath.h"
 
-//	[Brizo] 04-01-2024 - 22-01-2024
-//	This is a LabPresenca's tool for making Tore Virtual, a VR movie that documents a indigenous ritual in a transfigured way,
+#include "Device.h"
+
+#include <stdarg.h>
+
+//	[Brizo] 04-01-2024 - 26-01-2024
+//	This is a LabPresenca's tool for making Tore Virtual, a VR movie that documents an indigenous ritual in a transfigured way,
 //in co-creation with Fulni-O people
 //	Tore Virtual is on the making thanks to a Funarte (Fundacao Nacional das Artes, brazilian Ministry of Culture) public prize.
 //	
@@ -30,6 +34,8 @@
 
 void ofApp::setup()
 {
+
+
 	mode = MODE::DEVICE;
 
 	nearFar_Gui.setup("Near/Far clipping");
@@ -37,7 +43,7 @@ void ofApp::setup()
 	nearFar_Gui.add(far_US.set("Far", 793, 256, 4096));
 
 	cropPointCloud_Gui.setup("Crop points to export", "crop_settings.xml");
-	
+
 #ifdef LP_KINECTV2
 	cropPointCloud_Gui.add(nearMeters.set("Near", 0.5, 0.5, 4.5));
 	cropPointCloud_Gui.add(farMeters.set("Far", 4.5, 0.5, 4.5));
@@ -48,7 +54,7 @@ void ofApp::setup()
 	cropPointCloud_Gui.add(leftMeters.set("Left", -2.5, -2.5, 2.5));
 	cropPointCloud_Gui.add(rightMeters.set("Right", 2.5, -2.5, 2.5));
 #else 
-	#ifdef LP_REALSENSE_D455
+#ifdef LP_REALSENSE_D455
 	cropPointCloud_Gui.add(lowMeters.set("Down", 2.0, -4.0, 4.0));
 	cropPointCloud_Gui.add(highMeters.set("Up", -2.0, -4.0, 4.0));
 
@@ -57,39 +63,76 @@ void ofApp::setup()
 
 	cropPointCloud_Gui.add(rightMeters.set("Right", -2.0, -4.0, 4.0));
 	cropPointCloud_Gui.add(leftMeters.set("Left", 2.0, -4.0, 4.0));
-	#endif // LP_REALSENSE_D455
+#endif // LP_REALSENSE_D455
 #endif // LP_KINECTV2
 
 	//	TESTS
 	//	* Testing conversions used to transcode depth to video and vice-versa
 	bool test_success = testConversions_US_UC3Channels(/*logToConsole*/ false);
 	assert(test_success == true);
-	
-	ofSetFrameRate(30);
-    ofSetVerticalSync(true);
-    ofSetLogLevel(OF_LOG_NOTICE);
 
-	cam.setUpAxis(glm::vec3(0, 0, 1));
+	ofSetFrameRate(30);
+	ofSetVerticalSync(true);
+	ofSetLogLevel(OF_LOG_NOTICE);
+
 	cam.setGlobalPosition(glm::vec3(4, 0, 0));
-	cam.lookAt(glm::vec3(0, 0, 0), glm::vec3(0, 0, 1));
+	cam.lookAt(glm::vec3(0, 0, 0), glm::vec3(0, -1, 0));
 
 	pointCloud.setMode(OF_PRIMITIVE_POINTS);
 
 	glEnable(GL_POINT_SMOOTH); // use circular points instead of square points
 	glPointSize(renderingDefs.pointSize); // make the points bigger
-    
+
 	//
 	//	RealSense camera
-
+	
+	realSenseDepthIntrinsics = nullptr;
+	alignToDepth = new rs2::align(rs2_stream::RS2_STREAM_DEPTH);
+#ifndef LP_LIBREALSENSE_JOHN
 	rs2::config cfg;
 	cfg.enable_device("231122302600"); // NOTE: This HARD-CODED number is the serial number of your device
 	cfg.enable_stream(RS2_STREAM_COLOR, 1280, 720, RS2_FORMAT_RGB8, 30);	//	higher resolution because we'll align it to the depth frame and generate coloured point cloud
 	cfg.enable_stream(RS2_STREAM_DEPTH, 848, 480, RS2_FORMAT_Z16, 30);	//	The optimal depth resolution of the D455 device is 848x480
-	alignToDepth = new rs2::align(rs2_stream::RS2_STREAM_DEPTH);
-
+	
 	pipelineProfile = pipe.start(cfg);	//	if we use custom configuration: pipe.start(cfg);
+#else
+	ofDisableArbTex();
+	
+	//	TODO - Passar para o init
+	//spoutSenderDepth.init("DepthVideo", 848, 480);// , OF_PIXELS_RGB);
+	//spoutSenderRGB.init("RGBVideoRegistered", 848, 480);
 
-	realSenseDepthIntrinsics = nullptr;
+	//this->guiPanel.setup("settings.xml");
+
+	device = nullptr;
+
+	this->eventListeners.push(this->context.deviceAddedEvent.newListener([&](std::string serialNumber)
+	{
+		ofLogNotice(__FUNCTION__) << "Starting device " << serialNumber;
+		std::cout << "Starting device " << serialNumber << std::endl;
+		device = this->context.getDevice(serialNumber);
+		device->enableDepth(848, 480, 30);
+		device->enableColor(1280, 720, 30);
+		device->enablePoints();
+
+		device->startPipeline();	//	Here the default parameters are set
+
+		device->alignMode.set("Align", ofxRealSense2::Device::Align::Depth);
+		//this->guiPanel.add(device->params);
+	}));
+
+	try
+	{
+		this->context.setup(false);
+	}
+	catch (std::exception& e)
+	{
+		ofLogFatalError(__FUNCTION__) << e.what();
+	}
+
+	std::cout << "3" << std::endl;
+
+#endif 
 }
 
 //--------------------------------------------------------------
@@ -102,7 +145,7 @@ void ofApp::finishSetup()
 
 	//RGB_OFPixels.allocate(w, h, OF_IMAGE_COLOR);
 	colorOFImage.allocate(w, h, OF_IMAGE_COLOR);
-	
+
 	depthFrameRGB = new unsigned char[w*h * 3];
 
 	//	NOTE - We would prefer to work with 16-bit monochrome depth images and depth video, but...
@@ -124,10 +167,10 @@ void ofApp::finishSetup()
 
 //--------------------------------------------------------------
 void ofApp::convert16BitTo2Channel8bit(unsigned short* in, int in_size, unsigned char* out)
-{	
+{
 	for (int i = 0; i < in_size; i++) {
-		out[i*2] = static_cast<unsigned char>(in[i] & 0xFF); // lower byte
-		out[i*2 + 1] = static_cast<unsigned char>((in[i] >> 8) & 0xFF); // higher byte
+		out[i * 2] = static_cast<unsigned char>(in[i] & 0xFF); // lower byte
+		out[i * 2 + 1] = static_cast<unsigned char>((in[i] >> 8) & 0xFF); // higher byte
 	}
 }
 
@@ -135,9 +178,9 @@ void ofApp::convert16BitTo2Channel8bit(unsigned short* in, int in_size, unsigned
 void ofApp::convert16BitTo3Channel8bit(unsigned short* in, int in_size, unsigned char* out)
 {
 	for (int i = 0; i < in_size; i++) {
-		out[i*3 + 0] = static_cast<unsigned char>(in[i] & 0xFF); // lower byte
-		out[i*3 + 1] = /*GMult **/ static_cast<unsigned char>((in[i] >> 8) & 0xFF); // higher byte
-		out[i*3 + 2] = 0;
+		out[i * 3 + 0] = static_cast<unsigned char>(in[i] & 0xFF); // lower byte
+		out[i * 3 + 1] = /*GMult **/ static_cast<unsigned char>((in[i] >> 8) & 0xFF); // higher byte
+		out[i * 3 + 2] = 0;
 	}
 }
 
@@ -145,7 +188,11 @@ void ofApp::convert16BitTo3Channel8bit(unsigned short* in, int in_size, unsigned
 void ofApp::convert3Channel8bitTo16Bit(unsigned char* in, int out_size, unsigned short* out)
 {
 	for (int i = 0; i < out_size; i++) {
-		out[i] = (unsigned short)(in[3*i + 1])*256/*/GMult*/ + unsigned short(in[3*i]);
+		out[i] = (unsigned short)(in[3 * i + 1]) * 256 + unsigned short(in[3 * i]);
+		//if (out[i] != 0)std::cout << out[i] << std::endl;
+		//out[i] = (unsigned short)(in[3 * i + 2]) * 256 + unsigned short(in[3 * i + 1]);
+		//out[i] = (unsigned short)(in[3 * i]) * 256 + unsigned short(in[3 * i + 1]);
+		//out[i] = (unsigned short)(in[3 * i + 1]) * 256 + unsigned short(in[3 * i + 2]);
 	}
 }
 
@@ -172,7 +219,7 @@ void ofApp::convert_mapped3Channel8bitTo16Bit(unsigned char* in, int out_size, u
 		i = ((1 - (k % 2)) * 15) + (g * ((k % 2) * 2 - 1) / 17);
 		//j = (255 - b) / 17;	this is for the html color map (the original "1004")
 		j = ((1 - (i % 2)) * 15) + (b * ((i % 2) * 2 - 1) / 17); // and this is for our version
-		out[i] = (256*k) + (16*j) + i;
+		out[i] = (256 * k) + (16 * j) + i;
 	}
 }
 
@@ -217,7 +264,7 @@ void ofApp::writeRealSenseIntrinsics(std::string p_filepath)
 	color_intrin = color_profile.as<rs2::video_stream_profile>().get_intrinsics();
 	color_extrin_to_depth = color_profile.as<rs2::video_stream_profile>().get_extrinsics_to(depth_profile);
 	depth_extrin_to_color = depth_profile.as<rs2::video_stream_profile>().get_extrinsics_to(color_profile);*/
-	
+
 	std::ofstream f(fullpath);
 	f << params;
 	f.flush();
@@ -244,6 +291,7 @@ void ofApp::readRealSenseIntrinsics(std::string p_filepath)
 }
 
 //--------------------------------------------------------------
+//#ifndef LP_LIBREALSENSE_JOHN
 void ofApp::writeDeviceInfo(std::string p_filepath)
 {
 	float fov[2];
@@ -255,19 +303,20 @@ void ofApp::writeDeviceInfo(std::string p_filepath)
 	sprintf(s, "%f %f", fov[0], fov[1]);
 	params["info"]["fov"] = std::string(s);
 
-	params["info"]["advanced_mode"] = std::string(device.get_info(rs2_camera_info::RS2_CAMERA_INFO_ADVANCED_MODE));
-	params["info"]["locked"] = std::string(device.get_info(rs2_camera_info::RS2_CAMERA_INFO_CAMERA_LOCKED));
-	params["info"]["op_code"] = std::string(device.get_info(rs2_camera_info::RS2_CAMERA_INFO_DEBUG_OP_CODE));
-	params["info"]["firmware_version"] = std::string(device.get_info(rs2_camera_info::RS2_CAMERA_INFO_FIRMWARE_VERSION));
-	params["info"]["camera_name"] = std::string(device.get_info(rs2_camera_info::RS2_CAMERA_INFO_NAME));
-	params["info"]["product_id"] = std::string(device.get_info(rs2_camera_info::RS2_CAMERA_INFO_PRODUCT_ID));
-	params["info"]["serial"] = std::string(device.get_info(rs2_camera_info::RS2_CAMERA_INFO_SERIAL_NUMBER));
-	params["info"]["usb_compatibility"] = std::string(device.get_info(rs2_camera_info::RS2_CAMERA_INFO_USB_TYPE_DESCRIPTOR));
-	
+	params["info"]["advanced_mode"] = std::string(device->getNativeDevice().get_info(rs2_camera_info::RS2_CAMERA_INFO_ADVANCED_MODE));
+	params["info"]["locked"] = std::string(device->getNativeDevice().get_info(rs2_camera_info::RS2_CAMERA_INFO_CAMERA_LOCKED));
+	params["info"]["op_code"] = std::string(device->getNativeDevice().get_info(rs2_camera_info::RS2_CAMERA_INFO_DEBUG_OP_CODE));
+	params["info"]["firmware_version"] = std::string(device->getNativeDevice().get_info(rs2_camera_info::RS2_CAMERA_INFO_FIRMWARE_VERSION));
+	params["info"]["camera_name"] = std::string(device->getNativeDevice().get_info(rs2_camera_info::RS2_CAMERA_INFO_NAME));
+	params["info"]["product_id"] = std::string(device->getNativeDevice().get_info(rs2_camera_info::RS2_CAMERA_INFO_PRODUCT_ID));
+	params["info"]["serial"] = std::string(device->getNativeDevice().get_info(rs2_camera_info::RS2_CAMERA_INFO_SERIAL_NUMBER));
+	params["info"]["usb_compatibility"] = std::string(device->getNativeDevice().get_info(rs2_camera_info::RS2_CAMERA_INFO_USB_TYPE_DESCRIPTOR));
+
 	std::ofstream f(std::string(p_filepath) + this->FNAME_DEVICE_INFO);
 	f << params;
 	f.flush();
 }
+//#endif
 
 //--------------------------------------------------------------
 ///	Slight adaptation of rsutil.h's static void rs2_deproject_pixel_to_point(float point[3], const struct rs2_intrinsics * intrin, const float pixel[2], float depth)
@@ -335,7 +384,7 @@ void ofApp::fillVboMesh(int p_npts, rs2::vertex* p_vertices, const unsigned char
 
 	glm::vec3 v3;
 
-	if (p_npts != 0) 
+	if (p_npts != 0)
 	{
 		for (int i = 0; i < p_npts; i++)
 		{
@@ -391,15 +440,30 @@ void ofApp::fillVboMesh_transformed(int p_npts, rs2::vertex* p_vertices, const u
 //--------------------------------------------------------------
 void ofApp::updateFromRealSense()
 {
+#ifdef LP_LIBREALSENSE_JOHN
+	if (!device) {
+		return;
+	}
+	this->context.update();
+
+	frameset = device->frameset;
+	rs2::depth_frame depth = frameset.get_depth_frame();
+#else
 	// Get depth data from camera
-	rs2::frameset frameset = pipe.wait_for_frames();
+	frameset = pipe.wait_for_frames();
 	auto depth = frameset.get_depth_frame();
-	
+#endif
+
 	if (!depth) {
 		return;
 	}
 
+	
+#ifndef LP_LIBREALSENSE_JOHN // already aligned in context.update()
 	//	Here the color frame is aligned to the depth frame, and, hence, resized to w x h
+	frameset = alignToDepth->process(frameset);
+#endif
+
 	frameset = alignToDepth->process(frameset);
 
 	bool deviceInfoLogged = (realSenseDepthIntrinsics != nullptr);
@@ -410,19 +474,21 @@ void ofApp::updateFromRealSense()
 
 		writeRealSenseIntrinsics(ofToDataPath("", true));
 
+#ifndef LP_LIBREALSENSE_JOHN
 		device = pipelineProfile.get_device();
+#endif
 
 		writeDeviceInfo(ofToDataPath("", true));
 
 		//	The option below doesn't work. My RS Viewer (v2.54.1) doesn't save the resolution I set there in the Custom preset
 		//	Use the custom preset you should have saved with the SDK's Intel RealSense Viewer
-		if (device.query_sensors()[0].supports(rs2_option::RS2_OPTION_VISUAL_PRESET)) {
+		/*if (device.query_sensors()[0].supports(rs2_option::RS2_OPTION_VISUAL_PRESET)) {
 			device.query_sensors()[0].set_option(rs2_option::RS2_OPTION_VISUAL_PRESET, rs2_rs400_visual_preset::RS2_RS400_VISUAL_PRESET_CUSTOM);
 			std::cout << "RS2_RS400_VISUAL_PRESET_CUSTOM should be set now..." << std::endl;
-			/*std::cout << device.query_sensors()[0].get_option(rs2_option::RS2_OPTION_AUTO_EXPOSURE_MODE);
-			std::cout << device.query_sensors()[0].get_option(rs2_option::RS2_OPTION_GAIN);
-			std::cout << device.query_sensors()[0].get_option(rs2_option::RS2_OPTION_LASER_POWER);*/
-		}
+			//std::cout << device.query_sensors()[0].get_option(rs2_option::RS2_OPTION_AUTO_EXPOSURE_MODE);
+			//std::cout << device.query_sensors()[0].get_option(rs2_option::RS2_OPTION_GAIN);
+			//std::cout << device.query_sensors()[0].get_option(rs2_option::RS2_OPTION_LASER_POWER);
+		}*/
 		w = depth.get_width();
 		h = depth.get_height();
 
@@ -435,7 +501,7 @@ void ofApp::updateFromRealSense()
 
 	const unsigned char* colorStream = static_cast<const unsigned char*> (frameset.get_color_frame().get_data());
 	colorOFImage.setFromPixels(colorStream, w, h, OF_IMAGE_COLOR);
-		
+
 	fillVboMesh/*_transformed*/(points.size(), (rs2::vertex*) points.get_vertices(), colorStream);
 
 	//	NOTE - Investigate why the parameters below aren't correct (or if there's a bug):
@@ -452,6 +518,9 @@ void ofApp::updateFromRealSense()
 	this->convert16BitTo3Channel8bit((unsigned short*)(depth.get_data()), w * h, depthFrameRGB);
 	//this->convert16BitTo3Channel8bit_mapped((unsigned short*)(depth.get_data()), w * h, depthFrameRGB, colormap);
 	depthOFImage.setFromPixels(depthFrameRGB, w, h, OF_IMAGE_COLOR);
+
+	spoutSenderDepth.send(depthOFImage.getTexture());
+	spoutSenderRGB.send(colorOFImage.getTexture());
 }
 
 //--------------------------------------------------------------
@@ -461,7 +530,7 @@ void ofApp::updateFromVideoFile()
 	{
 		realSenseDepthIntrinsics = new rs2_intrinsics();
 
-		readRealSenseIntrinsics(ofToDataPath("", true) + this->FNAME_DEVICE_INFO);
+		readRealSenseIntrinsics(ofToDataPath("", true) + this->FNAME_INTRINSIC_PARAMS);
 
 		w = realSenseDepthIntrinsics->width;
 		h = realSenseDepthIntrinsics->height;
@@ -499,16 +568,17 @@ void ofApp::updateFromVideoFile()
 	}
 	reconstructed_depthOFImage.setFromPixels(differenceDepthRGB, w, h, OF_IMAGE_COLOR);*/
 
-	applyNearAndFar(reconstructedDepth, w*h);
+	//applyNearAndFar(reconstructedDepth, w*h);
+
 	pointCloudFromDepth(reconstructedDepth, realSenseDepthIntrinsics, xyz_pointCloud);
 
 	fillVboMesh_transformed(w*h, xyz_pointCloud, colorOFImage.getPixelsRef().getData());
 #else
-	#ifdef LP_KINECTV2
+#ifdef LP_KINECTV2
 	convert3Channel8bitTo32bit(depthOFImage.getPixelsRef().getData(), w * h, reconstructedDepth);
 	applyNearAndFar(reconstructedDepth, w*h);
 	fillVboMesh(revertedRawPixelsInt, RGBOFImage.getPixelsRef(), h, w);
-	#endif
+#endif
 #endif
 
 	if (mode == MODE::RECORDING_POINTCLOUD)
@@ -518,7 +588,7 @@ void ofApp::updateFromVideoFile()
 		std::string fullPath = ofToDataPath("", true) + "\\PLY_data_" + to_string(depthVidPlayer.getCurrentFrame()) + ".ply";
 		std::cout << "Saving point cloud in " << fullPath << ". Total frames: " << depthVidPlayer.getTotalNumFrames() << endl;
 		pointCloud.save(fullPath);
-		
+
 		if (depthVidPlayer.getCurrentFrame() == (depthVidPlayer.getTotalNumFrames() - 1)) {
 			std::cout << "Point cloud sequence saved!" << std::endl;
 			mode = MODE::DEVICE;
@@ -539,11 +609,8 @@ void ofApp::update()
 	if (mode == MODE::DEVICE)
 	{
 		updateFromRealSense();
-
-		spoutSenderDepth.send(depthOFImage.getTexture());
-		spoutSenderRGB.send(colorOFImage.getTexture());
 	}
-	else if(mode != MODE::POINTCLOUD_PLAYBACK)
+	else if (mode != MODE::POINTCLOUD_PLAYBACK)
 	{
 		updateFromVideoFile();
 	}
@@ -552,11 +619,16 @@ void ofApp::update()
 //--------------------------------------------------------------
 void ofApp::draw()
 {
-    //ofBackground(200);
+	//ofBackground(200);
 
 	std::string instructions;
 	if (mode == MODE::DEVICE) {
 		instructions.append("DEVICE (LIVE) MODE\n[Space Bar]: Alternate depth+color / point cloud visualization\n[L]: Load video recording (go to video playback mode)");
+		if (!device) {
+			int rightMaringGUIOffset = ofGetWidth() - 520;
+			ofDrawBitmapStringHighlight(instructions, rightMaringGUIOffset, 20);
+			return;
+		}
 	}
 	else if (mode == MODE::VIDEOPLAYBACK) {
 		instructions.append("VIDEO PLAYBACK MODE\n[Space Bar]: Alternate depth+color / point cloud visualization\n[S]: Save OBJ files\n[D]: Back to device mode");
@@ -600,7 +672,7 @@ void ofApp::draw()
 
 		box.posZ = (box.depth / 2) + nearMeters.get();
 		box.posX = (box.width / 2) + rightMeters.get();
-		box.posY = (box.height / 2) + highMeters.get(); 
+		box.posY = (box.height / 2) + highMeters.get();
 
 		ofNoFill();
 		ofSetLineWidth(4.0);	//	Not supported, may not work
@@ -624,7 +696,7 @@ void ofApp::draw()
 	}
 
 	int rightMaringGUIOffset = ofGetWidth() - 520;
-	ofDrawBitmapStringHighlight(instructions, rightMaringGUIOffset, 20);  
+	ofDrawBitmapStringHighlight(instructions, rightMaringGUIOffset, 20);
 }
 
 //--------------------------------------------------------------
@@ -639,7 +711,7 @@ void ofApp::keyReleased(int key)
 	else if (key == ofKey::OF_KEY_LEFT) {
 		pointCloud.setMode(OF_PRIMITIVE_LINES);
 	}
-	else if ( ((key-48)>=0) && ((key-48)<10) ){
+	else if (((key - 48) >= 0) && ((key - 48) < 10)) {
 		pointCloud.setMode(ofPrimitiveMode(key - 48));
 	}
 	else if (key == '-') {
@@ -652,7 +724,7 @@ void ofApp::keyReleased(int key)
 		renderingDefs.pointSize += 0.1;
 		glPointSize(renderingDefs.pointSize);
 	}
-	
+
 	//
 	//	Multiplier of the green channel for the depth video:
 
@@ -669,7 +741,7 @@ void ofApp::keyReleased(int key)
 
 	//
 	//	Draw option (FIXME - Remove this option and draw everything in 3d)
-	else if (key == ' ') {
+	else if (key == 'v') {
 		if (drawOption == DRAW_OPT::DEPTH) {
 			drawOption = DRAW_OPT::POINTCLOUD;
 		}
@@ -699,19 +771,19 @@ void ofApp::keyReleased(int key)
 		mode = MODE::DEVICE;
 	}
 	else if (key == 's') {
-		if (mode == MODE::VIDEOPLAYBACK && depthVidPlayer.isLoaded()) 
+		if (mode == MODE::VIDEOPLAYBACK && depthVidPlayer.isLoaded())
 		{
 			mode = MODE::RECORDING_POINTCLOUD;
 
 			std::cout << "Started recording point cloud animation to sequence of .PLY files..." << std::endl;
-			
+
 			//savePLYDialog = ofSystemLoadDialog("Save point cloud animation to sequence of .PLY files", true);	Crashes on some Win10 tests!
 			//if (savePLYDialog.bSuccess) {
-				depthVidPlayer.firstFrame();
+			depthVidPlayer.firstFrame();
 			//}
 		}
 	}
-	else if(key == 'f'){
+	else if (key == 'f') {
 		if (mode == MODE::DEVICE) {
 			mode = MODE::POINTCLOUD_PLAYBACK;
 			ofFileDialogResult dialogResult = ofSystemLoadDialog("Test mesh 1");
@@ -726,4 +798,9 @@ void ofApp::keyReleased(int key)
 	}
 
 	std::cout << ofGetFrameRate() << "FPS" << std::endl;
+}
+
+void ofApp::exit()
+{
+	this->context.clear();
 }

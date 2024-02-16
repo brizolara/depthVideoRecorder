@@ -1,18 +1,20 @@
 #pragma once
 
 #define LP_REALSENSE_D455
+#define LP_LIBREALSENSE_JOHN
 
 #include "ofMain.h"
 #include "ofxSpout.h"
 #include "ofxGui.h"
-#include <librealsense2/rs.hpp>
+//#include <librealsense2/rs.hpp>
+#include "ofxRealsense2.h"
 #include "colormaps/ColorMap.h"
 
-class ofApp : public ofBaseApp{
+class ofApp : public ofBaseApp {
 public:
-    void setup();
+	void setup();
 	void finishSetup();
-    
+
 	void update();
 	void updateFromRealSense();
 	void updateFromVideoFile();
@@ -21,25 +23,31 @@ public:
 
 	void keyReleased(int key);
 
-	
-    rs2::pipeline pipe;
-	rs2::pipeline_profile pipelineProfile;
-    rs2::device device;
+	void exit();
 
+#ifdef LP_LIBREALSENSE_JOHN
+	std::shared_ptr<ofxRealSense2::Device> device;
+	ofxRealSense2::Context context;
+	ofEventListeners eventListeners;
+#else
+	rs2::pipeline pipe;
+	rs2::pipeline_profile pipelineProfile;
+	rs2::device device;
+#endif  // LP_LIBREALSENSE_JOHN
 	rs2::align* alignToDepth;
-    
-    rs2::points points;
-    rs2::pointcloud pc;
-    
-    ofVboMesh pointCloud;
+	rs2::frameset frameset;
+	rs2::points points;
+	rs2::pointcloud pc;
+
+	ofVboMesh pointCloud;
 	ofVboMesh pointCloud2;
-    ofEasyCam cam;
+	ofEasyCam cam;
 
 	typedef struct RenderingDefs {
 		GLfloat pointSize = 1;
 	};
 	RenderingDefs renderingDefs;
-  
+
 	ofxSpout::Sender spoutSenderDepth;
 	ofxSpout::Sender spoutSenderRGB;
 
@@ -70,7 +78,7 @@ protected:
 
 	///	Multiplier for the green channel of the output depth image.
 	/// This is desirable because otherwise these always low values can't be retrieved on a recorded video
-	int GMult = 1;	
+	int GMult = 1;
 
 	typedef enum {
 		DEVICE,
@@ -96,9 +104,9 @@ protected:
 	void pointCloudFromDepth(unsigned short* p_depth, rs2_intrinsics* p_intrinsics, rs2::vertex* xyz_out);
 
 	void fillVboMesh(int p_npts, rs2::vertex* p_vertices, const unsigned char* p_colors);
-	#ifdef LP_REALSENSE_D455
+#ifdef LP_REALSENSE_D455
 	void fillVboMesh_transformed(int p_npts, rs2::vertex* p_vertices, const unsigned char* p_colors);
-	#endif
+#endif
 
 	unsigned short* reconstructedDepth;
 	unsigned char* differenceDepthRGB;
@@ -131,6 +139,6 @@ protected:
 	ofxPanel nearFar_Gui;
 	ofxPanel cropPointCloud_Gui;
 
-	
+
 	ofFileDialogResult savePLYDialog;
 };
